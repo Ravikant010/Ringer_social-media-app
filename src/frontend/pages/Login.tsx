@@ -7,7 +7,9 @@ import google from "../assests/logo/google.png"
 import facebook from  "../assests/logo/facebook.png"
 import twitter from  "../assests/logo/twitter.png"
 import { login_user } from '../controller/request'
-import path from 'path'
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config()
+
 type Props = {}
 interface forlogin {
     email: string;
