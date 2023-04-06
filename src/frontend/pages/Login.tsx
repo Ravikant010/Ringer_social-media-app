@@ -7,6 +7,7 @@ import google from "../assests/logo/google.png"
 import facebook from  "../assests/logo/facebook.png"
 import twitter from  "../assests/logo/twitter.png"
 import { login_user } from '../controller/request'
+import path from 'path'
 type Props = {}
 interface forlogin {
     email: string;
@@ -23,6 +24,10 @@ export default function Login({}: Props) {
         setLogin(prevState => ({...prevState, [name]: value}))
     }
     const grid = getStyles(width, height)
+   
+
+    
+    console.log(process.env)
     return (
         <div style = {grid}>
                 <div style = {styles.contaienr}>

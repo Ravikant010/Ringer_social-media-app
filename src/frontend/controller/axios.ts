@@ -1,7 +1,7 @@
 import axios from "axios"
 
 export const API  = axios.create({
-baseURL: process.env.baseURL as string || "http://localhost:8080",
+baseURL: "https://ringer.onrender.com",
 headers: {
     "content-type": "application/json",
     "accept": "application/josn",
