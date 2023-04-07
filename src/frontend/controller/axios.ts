@@ -8,7 +8,6 @@ headers: {
     "Access-Control-Allow-Origin": "*",
     
 },
-
 timeout: 5000,
 withCredentials: true
 })
