@@ -4,13 +4,35 @@ import { store } from '../../index'
 import { API } from '../controller/axios'
 import Jwt  from 'jsonwebtoken'
 // export const JWT = atom<string | undefined>(localStorage.getItem("authToken") || undefined)
+interface _fetch_user {
+  _id: string
+  fullname: string;
+  username: string;
+  email: string;
+  phone: number;
+  DOB: string;
+  country : string;
+}
+
 const token = atomWithStorage<string>("authtoken", '')
 const user_id  = atomWithStorage<string>("_id", '')
-const user_details = atom<object>({})
+const user_details = atom<_fetch_user>({  _id: "",
+fullname: "",
+username: "",
+email: "",
+phone: 0,
+DOB: "",
+country: ""})
+export const  csrfToken  = atom<string>("")
 
     export function set_user_auth(jwt:string, _id:string) {
     store.set(token, jwt)
     store.set(user_id, _id)
+}
+export function setCsrf (token:string){
+  console.log(token)
+  store.set(csrfToken, token)
+  console.log("get",store.get(csrfToken))
 }
 interface User {
     id: number;
@@ -117,9 +139,20 @@ export async function  fetch_post()
     posts && store.set(allposts, posts)
     }
 
-export async  function  get_user_details(){
-await API.get(`/fetchuser/${store.get(user_id)}`).then(response => store.set(user_details, response.data))
-console.log("dfdf", store.get(user_details))
+ export  async function  get_user_details(){
+ API.get(`/fetchuser/?id=${store.get(user_id)}`).then(response => {
+  const header = response.headers
+  API.defaults.headers.common["x-csrf-token"] = header["x-csrf-token"];
+  store.set(user_details, response.data)})
 }
-    
+export const followers_count = atom<number>(0)
+export const following_count = atom<number>(0)
+export async function getFollowcount(){
+  await API.get(`/follow/counts/?id=${store.get(user_id)}`).then(response =>
+    {
+store.set(followers_count, response.data.followersCount)
+store.set(following_count, response.data.followingCount)
+    })
+    console.log(store.get(followers_count))
+}
 export {token,allusers,user_id,user_details}

@@ -6,7 +6,7 @@ import vedios from "../../assests/icon/videoplay.svg"
 import home from "../../assests/icon/home.svg"
 import { useNavigate } from 'react-router-dom'
 import {useAtom} from "jotai"
-import {allposts,fetch_post, allusers} from "../../store/storage"
+import {allposts,fetch_post, allusers,get_user_details} from "../../store/storage"
 import Postcard from '../../components/postcard'
 import post_icon from "../../assests/icon/post.svg"
 type Props = {}
@@ -21,12 +21,14 @@ function Home({}: Props) {
 const userNames = allusers_.users.map((user) => user.username);
 const userimages = allusers_.users.map((user) => user.image);
   const Story_cirlce = ()=>{
-    return <div style= {{width: "80px", height: "80px", borderRadius:"50%", background: "", border: "2px solid red"}}>
+    return <div style= {{width: "24%",   height: 0,
+    paddingBottom: "24%", borderRadius:"50%", background: "", border: "2px solid red", marginLeft: "14px"}}>
 
     </div>
   }
   React.useEffect(()=>{
     fetch_post()
+    get_user_details()
   },[])
   console.log(allposts_.posts)
 
@@ -44,7 +46,7 @@ return <Postcard title = {args.title} body = {args.body} tags = {args.tags} reac
   }
 <div style={styles.navigation_menue}>
 {
-  [home, post_icon,vedios, profile].map((args,index) => <div style={{width: "34px", height: "34px", background: `url(${args})`, backgroundPosition: "center", backgroundSize: "cover"}} onClick={()=>{
+  [home, post_icon,vedios, profile].map((args,index) => <div style={{width: "32px", height: "32px", background: `url(${args})`, backgroundPosition: "center", backgroundSize: "cover"}} onClick={()=>{
       if(index===0)
       return navigate("/home")
       if(index===2)
@@ -76,7 +78,6 @@ const styles = {
     width: "94%",
     display: "flex",
     alignItems: "center",
-    
     padding: "5% 3%",
     paddingTop: "10%",
     background: ""
@@ -95,7 +96,9 @@ const styles = {
   },
   navigation_menue : {
     width: "100%",
+    minHeight: "50px",
     height: "60px",
+    maxHeight: "60px",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-around",

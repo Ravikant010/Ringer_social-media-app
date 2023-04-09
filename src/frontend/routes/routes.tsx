@@ -1,10 +1,11 @@
 import {useAtom} from "jotai"
-import {token,set_user_auth,allusers,fetch_user,get_user_details,user_id} from "../store/storage"
+import {token,set_user_auth,allusers,fetch_user,get_user_details,user_id, csrfToken, getFollowcount} from "../store/storage"
 import Main from "../pages/main";
 import Login from "../pages/Login"
 import Signup from "../pages/Signup"
 import Home from "../pages/private/home"
 import Profile from "../pages/private/Profile"
+import { API } from "../controller/axios";
 import jwt, {} from "jsonwebtoken";
 import jwt_decode, { JwtPayload } from 'jwt-decode';
 
@@ -36,13 +37,23 @@ const PublicRoutes:React.FC<{path: string, element: React.ReactElement}> = ({pat
 }
 
 export const App = ()=>{
+    
     const [isAuth] = useAtom(token)
     const [_user_id] = useAtom(user_id)
     const [_alluser] = useAtom(allusers)
+    const [csrf] = useAtom(csrfToken)
     useEffect(()=>{
-        fetch_user()
-        
         get_user_details()
+        getFollowcount()
+
+    
+        fetch_user()
+        console.log("ff",csrf)
+        if(csrf){
+            console.log(csrf)
+        API.defaults.headers.common["x-csrf-token"] = csrf;
+        }
+      
     },[])
     if(isAuth){
         const decodedToken =   jwt_decode<JwtPayload>(isAuth);

@@ -1,0 +1,89 @@
+// Add a comment to a post
+Route.post('/comments', async (req, res) => {
+  const { commenterId, postId, commentText } = req.body;
+  try {
+    await addComment(commenterId, postId, commentText);
+    res.status(201).send('Comment added successfully');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error adding comment');
+  }
+});
+
+// Get comments for a post
+Route.get('/comments/:postId', async (req, res) => {
+  const { postId } = req.params;
+  try {
+    const comments = await getComments(postId);
+    res.json(comments);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error getting comments');
+  }
+});
+
+// Delete a comment
+Route.delete('/comments/:commentId', async (req, res) => {
+  const { commentId } = req.params;
+  try {
+    await deleteComment(commentId);
+    res.send('Comment deleted successfully');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error deleting comment');
+  }
+});
+
+
+// Add a follower
+Route.get('/following', async (req:Request, res) => {
+  const { user } = req.session;
+
+  try {
+    const follows = await Follows.findOne({ user: user._id }).populate('following');
+    res.status(200).json({ success: true, following: follows.following });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// Get a user's followers
+Route.get('/users/:userId/followers', async (req: Request, res: Response) => {
+  const userId = req.params.userId;
+  try {
+    const followers = await getFollowers(userId);
+    res.status(200).json(followers);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error retrieving followers');
+  }
+});
+
+// Get a user's following users
+Route.get('/users/:userId/following', async (req: Request, res: Response) => {
+  const userId = req.params.userId;
+  try {
+    const following = await getFollowing(userId);
+    res.status(200).json(following);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error retrieving following users');
+  }
+});
+
+// Remove a follower
+Route.delete('/users/:userId/followers/:followerId', async (req: Request, res: Response) => {
+  const followingUser = req.params.userId;
+  const followerUser = req.params.followerId;
+  try {
+    await removeFollower(followingUser, followerUser);
+    res.status(200).send('Follower removed successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error removing follower');
+  }
+});
+
+
+
+
