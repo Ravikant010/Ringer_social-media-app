@@ -11,9 +11,7 @@ declare global {
   }
   
   // Set default values for your environment variables
-  process.env.MONGO_URI =  'mongodb+srv://Peter:Peter123@cluster0.ocbbskm.mongodb.net/Ringer?retryWrites=true&w=majority';
-  process.env.PORT ='8080';
-  process.env.baseURL ='https://ringer.onrender.com';
+
   
 
   export {};
