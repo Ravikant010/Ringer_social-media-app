@@ -44,7 +44,7 @@ const sessionOptions: CustomSessionOptions = {
 };
 app.use(express.json())
 app.use(session(sessionOptions));
-const allowedOrigins = ["http://localhost:8081","http://192.168.1.5:8081","https://ringer-social-media-app.vercel.app","http://ringer-social-media-app.vercel.app", "https://ringer.vercel.app", "http://ringer.vercel.app"];
+const allowedOrigins = ["http://localhost:8081","http://192.168.1.5:8081","https://ringer-social-media-app.vercel.app","http://ringer-social-media-app.vercel.app", "https://ringer.vercel.app", "http://ringer.vercel.app", "https://ringer-mptoxv1fv-peterparkerahere-gmailcom.vercel.app"];
 
 interface CustomRequest extends Request {
     session: any;
